@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit ,Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { IonContent, IonList } from '@ionic/angular';
+import { IonContent, IonList, IonSlides } from '@ionic/angular';
 import {tap,switchMap,map} from 'rxjs/operators';
 
 export interface Category {
@@ -39,8 +39,10 @@ export class HomePage implements OnInit,AfterViewInit{
   }
 
   activeCategory = 0;
-  cateforySlidesVisible = true;
-  constructor(private http: HttpClient) {}
+  @ViewChildren(IonList, { read: ElementRef }) lists: QueryList<ElementRef>;
+  listElements = [];
+  @ViewChild(IonContent) content: IonContent;
+  @ViewChild(IonSlides) slides: IonSlides;  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.http.get<Category[]>(`${this.url}/categories`).pipe(
@@ -90,9 +92,7 @@ export class HomePage implements OnInit,AfterViewInit{
     });
   }
 
-  @ViewChildren(IonList, { read: ElementRef }) lists: QueryList<ElementRef>;
-  listElements = [];
-  @ViewChild(IonContent) content: IonContent;
+
 
   getCategory(catedoryId: number){
     return this.categories.filter(c => c.id === catedoryId)[0];
@@ -109,5 +109,23 @@ export class HomePage implements OnInit,AfterViewInit{
   selectCategory(index){
     const child = this.listElements[index].nativeElement;
     this.content.scrollToPoint(0, child.offsetTop - 100, 1000)
+  }
+
+  onScroll(ev){
+    // console.log(ev);
+    for(let i = 0; i < this.listElements.length; i++){
+      const item = this.listElements[i].nativeElement;
+      if(this.isElementInViewport(item)){
+        this.activeCategory = i;
+        this.slides.slideTo(i);
+        break;
+
+      }
+    }
+  }
+
+  isElementInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return(rect.height + rect.top) -100 > 0;
   }
 }

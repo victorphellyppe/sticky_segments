@@ -1,20 +1,40 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title> Segments </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <!-- <div slot="fixed">
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  </div> -->
+  <ion-slides [options]="opts">
+    <ion-slide *ngFor="let cat of categories; let i = index;">
+      <ion-button fill="clear" [class.active-category]="activeCategory == i"
+      (click)="selectCategory(i)">{{ cat.name }}</ion-button>
+    </ion-slide>
+  </ion-slides>
+
+  <ion-list *ngFor="let entry of products">
+    <ion-list-header
+      [style.background-image]="'url(' + entry.detail_image + ')'"
+    >
+  <ion-label>
+    <b> {{ entry.title }}  </b>
+    <p> {{ entry.subtitle }} </p>
+  </ion-label>
+</ion-list-header>
+    <ion-row *ngFor="let product of entry.products" class="ion-padding">
+      <ion-col>
+        <ion-label>
+          {{ product.name }}
+          <p>{{ product.description }}</p>
+        </ion-label>
+        <ion-text color="dark"><b>{{ product.price | currency: 'R$' }}</b></ion-text>
+      </ion-col>
+      <ion-col size="4" class="border-bottom">
+        <div class="thumb-image" [style.background-image]="'url(' + product.thumbnail_image + ')'"></div>
+      </ion-col>
+    </ion-row>
+  </ion-list>
 </ion-content>

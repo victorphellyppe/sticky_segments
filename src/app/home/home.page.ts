@@ -108,7 +108,7 @@ export class HomePage implements OnInit,AfterViewInit{
 
   selectCategory(index){
     const child = this.listElements[index].nativeElement;
-    this.content.scrollToPoint(0, child.offsetTop - 100, 1000)
+    this.content.scrollToPoint(0, child.offsetTop - 30, 1000)
   }
 
   onScroll(ev){
@@ -126,6 +126,6 @@ export class HomePage implements OnInit,AfterViewInit{
 
   isElementInViewport(el) {
     const rect = el.getBoundingClientRect();
-    return(rect.height + rect.top) -100 > 0;
+    return(rect.height + rect.top) - 100 > 0;
   }
 }

@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "sticky_segments",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}
